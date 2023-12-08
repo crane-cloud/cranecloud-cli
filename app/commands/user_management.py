@@ -2,12 +2,23 @@ import click
 import requests
 from config import API_BASE_URL
 import keyring
+from tabulate import tabulate
+
 
 @click.group()
-def user():
+def user_group():
     pass
 
-@user.command('login', help='Login to CraneCloud.')
+
+@user_group.group(name='users')
+def user():
+    """
+    User management commands.
+    """
+    pass
+
+
+@user_group.command('login', help='Login to CraneCloud.')
 @click.option('-e', '--email', prompt=True, help='Your username', type=str)
 @click.password_option('-p', '--password', help='Your password')
 def login(email, password):
@@ -30,15 +41,17 @@ def login(email, password):
         else:
             click.echo("Login failed. Please check your credentials.")
     except requests.RequestException as e:
-        if e.response and e.response.status == 401:
+        if e.response or e.response.status == 401:
             click.echo("Login failed. Please check your credentials.")
+        elif e.response or e.response.reason:
+            click.echo(f"Failed to login: {e.response.reason}")
         else:
             click.echo(f"Failed to connect to the server: {e}")
             click.echo(
                 "Please check your internet connection or try again later.")
 
 
-@user.command('logout', help='Logout user from CraneCloud.')
+@user_group.command('logout', help='Logout user from CraneCloud.')
 def logout():
     """ Logout from CraneCloud."""
     if keyring.get_password("cranecloud", "token") is None:
@@ -52,10 +65,10 @@ def logout():
         click.echo("Logout failed. Please try again later.")
 
 
-@user.command('user', help='Display current user info.')
+@user.command('info', help='Display current user info.')
 def get_user_info():
     """Get current user info."""
-    click.echo("Getting user info...")
+    click.echo("Getting user info...\n")
     try:
         token = keyring.get_password('cranecloud', 'token')
         user_id = keyring.get_password('cranecloud', 'user_id')
@@ -65,15 +78,26 @@ def get_user_info():
 
         if response.status_code == 200:
             user_data = response.json()['data']['user']
-            click.echo(f"Name: {user_data['name']}")
-            click.echo(f"Email: {user_data['email']}")
-            click.echo(f"ID: {user_data['id']}")
-            click.echo(f"Projects: {user_data['projects_count']}")
+            table_data = [
+                ['ID', user_data['id']],
+                ['Name', user_data['name']],
+                ['Email', user_data['email']],
+                ['Organisation', user_data['organisation']],
+                ['Verified', user_data['verified']],
+                ['Projects Count', user_data['projects_count']],
+                ['Apps Count', user_data['apps_count']],
+                ['Database Count', user_data['database_count']],
+                ['Age', user_data['age']],
+                ['Created At', user_data['date_created']]
+            ]
+            click.echo(tabulate(table_data, tablefmt='simple'))
         else:
             click.echo("Failed to get user info.")
     except requests.RequestException as e:
-        if e.response and e.response.status == 401:
+        if e.response or e.response.status == 401:
             click.echo("Failed to get user info.")
+        elif e.response or e.response.reason:
+            click.echo(f"Error: {e.response.reason}")
         else:
             click.echo(f"Failed to connect to the server: {e}")
             click.echo(

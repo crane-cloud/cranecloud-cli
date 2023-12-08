@@ -20,7 +20,7 @@ def apps():
 
 
 @apps.command('list', help='List apps in project')
-@click.option('-p', '--project_id', type=click.UUID)
+@click.option('-p', '--project_id', type=click.UUID, required=True)
 def get_apps(project_id):
     """Get apps in project."""
     click.echo("Getting apps list...")
@@ -31,7 +31,6 @@ def get_apps(project_id):
         response.raise_for_status()
         if response.status_code == 200:
             apps = response.json()['data']['apps']
-            click.echo(apps)
             table_data = []
             for app in apps:
                 table_data.append(
@@ -41,8 +40,12 @@ def get_apps(project_id):
         else:
             click.echo("Failed to get apps list.")
     except requests.RequestException as e:
-        click.echo(f"Failed to connect to the server: {e}")
-        click.echo("Please check your internet connection or try again later.")
+        if e.response or e.response.reason:
+            click.echo(f"Error: {e.response.reason}")
+        else:
+            click.echo(f"Failed to connect to the server: {e}")
+            click.echo(
+                "Please check your internet connection or try again later.")
 
 
 @apps.command('info', help='Get app details.')
@@ -83,5 +86,36 @@ def get_app_details(app_id):
         else:
             click.echo("Failed to get app details.")
     except requests.RequestException as e:
-        click.echo(f"Failed to connect to the server: {e}")
-        click.echo("Please check your internet connection or try again later.")
+        if e.response or e.response.status_code == 404:
+            click.echo('App does not exist')
+        elif e.response or e.response.reason:
+            click.echo(f"Error: {e.response.reason}")
+        else:
+            click.echo(f"Failed to connect to the server: {e}")
+            click.echo(
+                "Please check your internet connection or try again later.")
+
+
+@apps.command('delete', help='Delete App')
+@click.argument('app_id', type=click.UUID)
+def delete_app(app_id):
+    """Delete app."""
+    click.echo("Deleting app...")
+    try:
+        token = keyring.get_password('cranecloud', 'token')
+        response = requests.delete(
+            f"{API_BASE_URL}/apps/{app_id}", headers={'Authorization': f"Bearer {token}"})
+        response.raise_for_status()
+        if response.status_code == 200:
+            click.echo("App deleted successfully.")
+        else:
+            click.echo("Failed to delete app.")
+    except requests.RequestException as e:
+        if e.response or e.response.status_code == 404:
+            click.echo('App does not exist')
+        elif e.response or e.response.reason:
+            click.echo(f"Failed to delete app: {e.response.reason}")
+        else:
+            click.echo(f"Failed to connect to the server: {e}")
+            click.echo(
+                "Please check your internet connection or try again later.")

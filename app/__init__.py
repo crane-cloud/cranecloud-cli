@@ -1,8 +1,9 @@
 from app.commands.apps import apps_group
+from app.commands.clusters import clusters_group
 import click
 from os.path import join, dirname
 from dotenv import load_dotenv
-from app.commands.user_management import user
+from app.commands.user_management import user_group
 from app.commands.projects import projects_group
 
 
@@ -15,4 +16,5 @@ def cli():
     pass
 
 
-cli = click.CommandCollection(sources=[user, projects_group, apps_group])
+cli = click.CommandCollection(
+    sources=[user_group, projects_group, apps_group, clusters_group])

@@ -38,8 +38,12 @@ def get_projects_list():
         else:
             click.echo("Failed to get projects list.")
     except requests.RequestException as e:
-        click.echo(f"Failed to connect to the server: {e}")
-        click.echo("Please check your internet connection or try again later.")
+        if e.response or e.response.reason:
+            click.echo(f"Error: {e.response.reason}")
+        else:
+            click.echo(f"Failed to connect to the server: {e}")
+            click.echo(
+                "Please check your internet connection or try again later.")
 
 
 @projects.command('info', help='Get project details.')
@@ -71,5 +75,36 @@ def get_project_details(project_id):
         else:
             click.echo("Failed to get project details.")
     except requests.RequestException as e:
-        click.echo(f"Failed to connect to the server: {e}")
-        click.echo("Please check your internet connection or try again later.")
+        if e.response or e.response.status_code == 404:
+            click.echo('Project does not exist')
+        elif e.response or e.response.reason:
+            click.echo(f"Error: {e.response.reason}")
+        else:
+            click.echo(f"Failed to connect to the server: {e}")
+            click.echo(
+                "Please check your internet connection or try again later.")
+
+
+@projects.command('delete', help='Delete Project')
+@click.argument('project_id', type=click.UUID)
+def delete_project(project_id):
+    """Delete project."""
+    click.echo("Deleting project...")
+    try:
+        token = keyring.get_password('cranecloud', 'token')
+        response = requests.delete(
+            f"{API_BASE_URL}/projects/{project_id}", headers={'Authorization': f"Bearer {token}"})
+        response.raise_for_status()
+        if response.status_code == 200:
+            click.echo("Project deleted successfully.")
+        else:
+            click.echo("Failed to delete project.")
+    except requests.RequestException as e:
+        if e.response or e.response.status_code == 404:
+            click.echo('Project does not exist')
+        elif e.response or e.response.reason:
+            click.echo(f"Failed to delete project: {e.response.reason}")
+        else:
+            click.echo(f"Failed to connect to the server: {e}")
+            click.echo(
+                "Please check your internet connection or try again later.")
