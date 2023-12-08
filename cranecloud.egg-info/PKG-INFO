@@ -1,0 +1,6 @@
+Metadata-Version: 2.1
+Name: cranecloud
+Version: 0.1.0
+License-File: LICENSE
+Requires-Dist: Click
+Requires-Dist: requests
