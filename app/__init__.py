@@ -1,3 +1,4 @@
+from app.commands.apps import apps_group
 import click
 from os.path import join, dirname
 from dotenv import load_dotenv
@@ -14,4 +15,4 @@ def cli():
     pass
 
 
-cli = click.CommandCollection(sources=[user, projects_group])
+cli = click.CommandCollection(sources=[user, projects_group, apps_group])

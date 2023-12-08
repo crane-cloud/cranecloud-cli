@@ -32,8 +32,8 @@ def get_projects_list():
             table_data = []
             for project in projects:
                 table_data.append(
-                    [project['id'], project['name'], project['description']])
-            headers = ['ID', 'Name', 'Description']
+                    [project['id'], project['name'], project['apps_count'], project['disabled'], project['age']])
+            headers = ['ID', 'Name', 'Apps Count', 'Disabled', 'Age']
             click.echo(tabulate(table_data, headers, tablefmt='simple'))
         else:
             click.echo("Failed to get projects list.")
