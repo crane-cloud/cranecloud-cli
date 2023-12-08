@@ -4,15 +4,33 @@ Cranecloud CLI client
 
 ### Setup
 
-1. **Install:** Run the Cranecloud CLI client setup.
+1. **Create** and activate a virtual environment
+
+   ```bash
+   python3 -m venv venv
+   ```
+
+2. **Install:** Run the Cranecloud CLI client setup.
 
    ```bash
    pip install --editable .
    ```
 
-### Basic Commands
+3. Add `API_BASE_URL` that points to cc backend to your `.env` file
 
-## Authentication and Account Management
+   ```bash
+   export API_BASE_URL=""
+   ```
+
+4. Run Cranecloud commands
+
+   ```bash
+   cranecloud --help
+   ```
+
+## Basic Commands
+
+### Authentication and Account Management
 
 1. **Login:** Authenticate the user with their credentials.
 
@@ -32,7 +50,7 @@ Cranecloud CLI client
    cranecloud user info
    ```
 
-## Project Management
+### Project Management
 
 1. **List Projects:** Show a list of projects available in the user's account.
 
