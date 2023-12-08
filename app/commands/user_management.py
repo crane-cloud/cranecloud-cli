@@ -79,16 +79,16 @@ def get_user_info():
         if response.status_code == 200:
             user_data = response.json()['data']['user']
             table_data = [
-                ['ID', user_data['id']],
-                ['Name', user_data['name']],
-                ['Email', user_data['email']],
-                ['Organisation', user_data['organisation']],
-                ['Verified', user_data['verified']],
-                ['Projects Count', user_data['projects_count']],
-                ['Apps Count', user_data['apps_count']],
-                ['Database Count', user_data['database_count']],
-                ['Age', user_data['age']],
-                ['Created At', user_data['date_created']]
+                ['ID', user_data.get('id')],
+                ['Name', user_data.get('name')],
+                ['Email', user_data.get('email')],
+                ['Organisation', user_data.get('organisation')],
+                ['Verified', user_data.get('verified')],
+                ['Projects Count', user_data.get('projects_count')],
+                ['Apps Count', user_data.get('apps_count')],
+                ['Database Count', user_data.get('database_count')],
+                ['Age', user_data.get('age')],
+                ['Created At', user_data.get('date_created')]
             ]
             click.echo(tabulate(table_data, tablefmt='simple'))
         else:

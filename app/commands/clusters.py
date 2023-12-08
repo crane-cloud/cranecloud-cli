@@ -25,13 +25,12 @@ def get_clusters_list():
             table_data = []
             for cluster in clusters:
                 table_data.append(
-                    [cluster['id'], cluster['name'],  cluster['description']])
+                    [cluster.get('id'), cluster.get('name'),  cluster.get('description')])
             headers = ['ID', 'Name',  'Description']
             click.echo(tabulate(table_data, headers, tablefmt='simple'))
         else:
             click.echo("Failed to get clusters list.")
     except requests.RequestException as e:
-
         if e.response or e.response.reason:
             click.echo(f"Error: {e.response.reason}")
         else:
