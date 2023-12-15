@@ -128,7 +128,8 @@ def delete_app(app_id):
 @click.option('-c', '--command', type=str, default='', help='App command')
 @click.option('-r', '--replicas', type=int, default=1, help='App replicas, default is 1')
 @click.option('-o', '--port', type=int, default=80, help='App port, default is 80')
-def deploy_app(project_id, name, image, command, replicas, port):
+@click.option('-e', '--env', multiple=True, help='Environment variables in key=value format')
+def deploy_app(project_id, name, image, command, replicas, port, env):
     '''Deploy an application.'''
     click.echo('Deploying app...')
     try:
@@ -138,7 +139,10 @@ def deploy_app(project_id, name, image, command, replicas, port):
             'command': command,
             'image': image,
             'replicas': replicas,
-            'port': port
+            'port': port,
+            # Convert list of env variables to a dictionary
+            'env_vars': dict(v.split('=') for v in env)
+
         }
 
         response = requests.post(
@@ -152,6 +156,54 @@ def deploy_app(project_id, name, image, command, replicas, port):
         if e.response not in [None, '']:
             click.echo(
                 click.style(f'Failed to deploy app\n', fg='red') +
+                e.response.json().get('message'))
+        else:
+            click.echo(f'Failed to connect to the server: {e}')
+            click.echo(
+                'Please check your internet connection or try again later.')
+
+
+@apps.command('update', help='Update an application')
+@click.argument('app_id', type=click.UUID)
+@click.option('-n', '--name', type=str, help='App name')
+@click.option('-i', '--image', type=str, help='App image')
+@click.option('-c', '--command', type=str,  help='App command')
+@click.option('-r', '--replicas', type=int,  help='App replicas')
+@click.option('-o', '--port', type=int,  help='App port')
+@click.option('-e', '--env', multiple=True, help='Environment variables in key=value format. eg -e KEY=value, -e KEY2=value2')
+def update_app(app_id, name, image, command, replicas, port, env):
+    '''Update an application.'''
+    click.echo('Updating application...')
+    try:
+        token = keyring.get_password('cranecloud', 'token')
+        data = {}
+        if name:
+            data['name'] = name
+        if command:
+            data['command'] = command
+        if image:
+            data['image'] = image
+        if replicas:
+            data['replicas'] = replicas
+        if port:
+            data['port'] = port
+        if env:
+            data['env_vars'] = dict(v.split('=') for v in env)
+
+        if not data:
+            click.echo('Opps, No update data provided.')
+            return
+        response = requests.patch(
+            f'{API_BASE_URL}/apps/{app_id}',
+            headers={'Authorization': f'Bearer {token}'},
+            json=data
+        )
+        response.raise_for_status()
+        click.echo('App updated successfully.')
+    except requests.RequestException as e:
+        if e.response not in [None, '']:
+            click.echo(
+                click.style(f'Failed to update app\n', fg='red') +
                 e.response.json().get('message'))
         else:
             click.echo(f'Failed to connect to the server: {e}')
