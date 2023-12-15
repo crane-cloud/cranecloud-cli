@@ -41,9 +41,9 @@ def login(email, password):
         else:
             click.echo("Login failed. Please check your credentials.")
     except requests.RequestException as e:
-        if e.response or e.response.status == 401:
+        if e.response or e.response.status_code == 401:
             click.echo("Login failed. Please check your credentials.")
-        elif e.response or e.response.reason:
+        elif e.response and e.response.reason:
             click.echo(f"Failed to login: {e.response.reason}")
         else:
             click.echo(f"Failed to connect to the server: {e}")
@@ -94,7 +94,7 @@ def get_user_info():
         else:
             click.echo("Failed to get user info.")
     except requests.RequestException as e:
-        if e.response or e.response.status == 401:
+        if e.response or e.response.status_code == 401:
             click.echo("Failed to get user info.")
         elif e.response or e.response.reason:
             click.echo(f"Error: {e.response.reason}")
