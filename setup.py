@@ -8,10 +8,12 @@ setup(
     install_requires=[
         'Click',
         'requests',
+        'keyring',
+        'tabulate',
     ],
     entry_points={
         'console_scripts': [
-            'cranecloud = app:cli',
+            'cranecloud = src.cranecloud:cli',
         ],
     },
 

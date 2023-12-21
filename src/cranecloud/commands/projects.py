@@ -1,6 +1,6 @@
 import click
 import requests
-from config import API_BASE_URL
+from src.config import API_BASE_URL
 import keyring
 from tabulate import tabulate
 
@@ -38,8 +38,10 @@ def get_projects_list():
         else:
             click.echo("Failed to get projects list.")
     except requests.RequestException as e:
-        if e.response or e.response.reason:
-            click.echo(f"Error: {e.response.reason}")
+        if e.response not in [None, '']:
+            click.echo(
+                click.style(f'Error\n', fg='red') +
+                e.response.json().get('message'))
         else:
             click.echo(f"Failed to connect to the server: {e}")
             click.echo(

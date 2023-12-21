@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cranecloud"
+version = "0.0.1"
+authors = [
+  { name="cranecloud", email="allan@cranecloud.io" },
+]
+description = "Cranecloud CLI client"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "Click",
+    "requests",
+    "keyring",
+    "tabulate",
+]
+
+[project.urls]
+Homepage = "https://github.com/crane-cloud/cranecloud-cli"
+Issues = "https://github.com/crane-cloud/cranecloud-cli/issues"
+
+[project.scripts]
+cranecloud = "src.cranecloud:cli"
+
+[entry_points]
+console_scripts =[
+    'cranecloud = src.cranecloud:cli',
+]
+
