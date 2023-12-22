@@ -1,8 +1,9 @@
 import click
 import requests
-from config import API_BASE_URL
-import keyring
+from src.config import API_BASE_URL
 from tabulate import tabulate
+
+from src.cranecloud.helpers import get_token
 
 
 @click.group()
@@ -15,7 +16,7 @@ def get_clusters_list():
     """Get all clusters."""
     click.echo("Getting clusters list...")
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         response = requests.get(
             f"{API_BASE_URL}/clusters", headers={'Authorization': f"Bearer {token}"})
         response.raise_for_status()

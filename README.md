@@ -1,32 +1,6 @@
 # Cranecloud CLI Cleint
 
-Cranecloud CLI client
-
-### Setup
-
-1. **Create** and activate a virtual environment
-
-   ```bash
-   python3 -m venv venv
-   ```
-
-2. **Install:** Run the Cranecloud CLI client setup.
-
-   ```bash
-   pip install --editable .
-   ```
-
-3. Add `API_BASE_URL` that points to cc backend to your `.env` file
-
-   ```bash
-   export API_BASE_URL=""
-   ```
-
-4. Run Cranecloud commands
-
-   ```bash
-   cranecloud --help
-   ```
+Cranecloud CLI client is a command line tool for interacting with Cranecloud.
 
 ## Basic Commands
 

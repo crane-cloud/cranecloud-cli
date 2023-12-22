@@ -1,9 +1,10 @@
 import json
 import click
 import requests
-from config import API_BASE_URL
-import keyring
+from src.config import API_BASE_URL
 from tabulate import tabulate
+
+from src.cranecloud.helpers import get_token
 
 
 @click.group()
@@ -25,7 +26,7 @@ def get_apps(project_id):
     '''Get apps in project.'''
     click.echo('Getting apps list...')
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         response = requests.get(
             f'{API_BASE_URL}/projects/{project_id}/apps', headers={'Authorization': f'Bearer {token}'})
         response.raise_for_status()
@@ -54,7 +55,7 @@ def get_app_details(app_id):
     '''Get app details.'''
     click.echo('Getting app details...\n')
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         response = requests.get(
             f'{API_BASE_URL}/apps/{app_id}', headers={'Authorization': f'Bearer {token}'})
         response.raise_for_status()
@@ -102,7 +103,7 @@ def delete_app(app_id):
     '''Delete app.'''
     click.echo('Deleting app...')
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         response = requests.delete(
             f'{API_BASE_URL}/apps/{app_id}', headers={'Authorization': f'Bearer {token}'})
         response.raise_for_status()
@@ -133,7 +134,7 @@ def deploy_app(project_id, name, image, command, replicas, port, env):
     '''Deploy an application.'''
     click.echo('Deploying app...')
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         data = {
             'name': name,
             'command': command,
@@ -175,7 +176,7 @@ def update_app(app_id, name, image, command, replicas, port, env):
     '''Update an application.'''
     click.echo('Updating application...')
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         data = {}
         if name:
             data['name'] = name

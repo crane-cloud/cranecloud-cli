@@ -1,8 +1,10 @@
 import click
 import requests
-from config import API_BASE_URL
+from src.config import API_BASE_URL
 import keyring
 from tabulate import tabulate
+
+from src.cranecloud.helpers import get_token
 
 
 @click.group()
@@ -70,7 +72,7 @@ def get_user_info():
     """Get current user info."""
     click.echo("Getting user info...\n")
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         user_id = keyring.get_password('cranecloud', 'user_id')
         response = requests.get(
             f"{API_BASE_URL}/users/{user_id}", headers={'Authorization': f"Bearer {token}"})

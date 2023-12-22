@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
-Name: cranecloud
-Version: 0.0.3
+Name: cranecloud-test
+Version: 0.0.1
 Summary: Cranecloud CLI client
 Author-email: cranecloud <allan@cranecloud.io>
 Project-URL: Homepage, https://github.com/crane-cloud/cranecloud-cli
@@ -28,7 +28,33 @@ Requires-Dist: pytest; extra == "dev"
 
 # Cranecloud CLI Cleint
 
-Cranecloud CLI client is a command line tool for interacting with Cranecloud.
+Cranecloud CLI client
+
+### Setup
+
+1. **Create** and activate a virtual environment
+
+   ```bash
+   python3 -m venv venv
+   ```
+
+2. **Install:** Run the Cranecloud CLI client setup.
+
+   ```bash
+   pip install --editable .
+   ```
+
+3. Add `API_BASE_URL` that points to cc backend to your `.env` file
+
+   ```bash
+   export API_BASE_URL=""
+   ```
+
+4. Run Cranecloud commands
+
+   ```bash
+   cranecloud --help
+   ```
 
 ## Basic Commands
 
