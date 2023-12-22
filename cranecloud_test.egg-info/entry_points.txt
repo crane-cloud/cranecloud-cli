@@ -1,0 +1,2 @@
+[console_scripts]
+cranecloud = src.cranecloud:cli

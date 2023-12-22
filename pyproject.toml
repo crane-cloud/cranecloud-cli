@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cranecloud"
-version = "0.0.1"
+version = "0.0.3"
 authors = [
   { name="cranecloud", email="allan@cranecloud.io" },
 ]
@@ -19,9 +19,18 @@ classifiers = [
 dependencies = [
     "Click",
     "requests",
-    "keyring",
+    "keyring==24.3.0",
     "tabulate",
+    "colorama",
+    "Pygments",
+    "rich",
+    "python-dotenv",
+    "urllib3==2.1.0",
+    "toml==0.10.2"
 ]
+
+[project.optional-dependencies]
+dev = ["twine", "pip-tools", "pytest"]
 
 [project.urls]
 Homepage = "https://github.com/crane-cloud/cranecloud-cli"

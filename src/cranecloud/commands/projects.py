@@ -1,8 +1,9 @@
 import click
 import requests
 from src.config import API_BASE_URL
-import keyring
 from tabulate import tabulate
+
+from src.cranecloud.helpers import get_token
 
 
 @click.group()
@@ -23,7 +24,7 @@ def get_projects_list():
     """Get all projects."""
     click.echo("Getting projects list...")
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         response = requests.get(
             f"{API_BASE_URL}/projects", headers={'Authorization': f"Bearer {token}"})
         response.raise_for_status()
@@ -39,9 +40,14 @@ def get_projects_list():
             click.echo("Failed to get projects list.")
     except requests.RequestException as e:
         if e.response not in [None, '']:
-            click.echo(
-                click.style(f'Error\n', fg='red') +
-                e.response.json().get('message'))
+            try:
+                click.echo(
+                    click.style(f'Error\n', fg='red') +
+                    e.response.json().get('message'))
+            except:
+                click.echo(
+                    click.style(f'Error\n', fg='red') +
+                    e.response.text)
         else:
             click.echo(f"Failed to connect to the server: {e}")
             click.echo(
@@ -54,7 +60,7 @@ def get_project_details(project_id):
     """Get project details."""
     click.echo("Getting project details...")
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         response = requests.get(
             f"{API_BASE_URL}/projects/{project_id}", headers={'Authorization': f"Bearer {token}"})
         response.raise_for_status()
@@ -93,7 +99,7 @@ def delete_project(project_id):
     """Delete project."""
     click.echo("Deleting project...")
     try:
-        token = keyring.get_password('cranecloud', 'token')
+        token = get_token()
         response = requests.delete(
             f"{API_BASE_URL}/projects/{project_id}", headers={'Authorization': f"Bearer {token}"})
         response.raise_for_status()
