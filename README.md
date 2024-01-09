@@ -9,19 +9,19 @@ Cranecloud CLI client is a command line tool for interacting with Cranecloud.
 1. **Login:** Authenticate the user with their credentials.
 
    ```bash
-   cranecloud login
+   cranecloud auth login
    ```
 
 2. **Logout:** Log out the user, clearing the stored credentials.
 
    ```bash
-   cranecloud logout
+   cranecloud auth logout
    ```
 
 3. **User Information:** Retrieve information about the logged-in user.
 
    ```bash
-   cranecloud user info
+   cranecloud auth user
    ```
 
 ### Project Management

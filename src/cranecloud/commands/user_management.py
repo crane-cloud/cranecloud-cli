@@ -12,7 +12,7 @@ def user_group():
     pass
 
 
-@user_group.group(name='users')
+@user_group.group(name='auth')
 def user():
     """
     User management commands.
@@ -20,7 +20,7 @@ def user():
     pass
 
 
-@user_group.command('login', help='Login to CraneCloud.')
+@user.command('login', help='Login to CraneCloud.')
 @click.option('-e', '--email', prompt=True, help='Your username', type=str)
 @click.password_option('-p', '--password', help='Your password')
 def login(email, password):
@@ -53,7 +53,7 @@ def login(email, password):
                 "Please check your internet connection or try again later.")
 
 
-@user_group.command('logout', help='Logout user from CraneCloud.')
+@user.command('logout', help='Logout user from CraneCloud.')
 def logout():
     """ Logout from CraneCloud."""
     if keyring.get_password("cranecloud", "token") is None:
@@ -67,7 +67,7 @@ def logout():
         click.echo("Logout failed. Please try again later.")
 
 
-@user.command('info', help='Display current user info.')
+@user.command('user', help='Display current user info.')
 def get_user_info():
     """Get current user info."""
     click.echo("Getting user info...\n")
