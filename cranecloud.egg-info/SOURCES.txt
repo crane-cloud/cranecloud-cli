@@ -14,6 +14,7 @@ src/cranecloud/__init__.py
 src/cranecloud/commands/__init__.py
 src/cranecloud/commands/apps.py
 src/cranecloud/commands/clusters.py
+src/cranecloud/commands/config_management.py
 src/cranecloud/commands/projects.py
 src/cranecloud/commands/test_user_management.py
 src/cranecloud/commands/user_management.py

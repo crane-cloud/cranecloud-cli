@@ -26,7 +26,8 @@ dependencies = [
     "rich",
     "python-dotenv",
     "urllib3==2.1.0",
-    "toml==0.10.2"
+    "toml==0.10.2",
+    "configparser==6.0.0"
 ]
 
 [project.optional-dependencies]
@@ -38,9 +39,11 @@ Issues = "https://github.com/crane-cloud/cranecloud-cli/issues"
 
 [project.scripts]
 cranecloud = "src.cranecloud:cli"
+create-config = "src.cranecloud:create_initial_config"
 
 [entry_points]
 console_scripts =[
+    'create-config=src.cranecloud:create_initial_config',
     'cranecloud = src.cranecloud:cli',
 ]
 

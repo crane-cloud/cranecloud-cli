@@ -5,6 +5,7 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 from src.cranecloud.commands.user_management import user_group
 from src.cranecloud.commands.projects import projects_group
+from src.cranecloud.helpers import create_config
 
 
 dotenv_path = join(dirname(__file__), '.env')
@@ -18,3 +19,7 @@ def cli():
 
 cli = click.CommandCollection(
     sources=[user_group, projects_group, apps_group, clusters_group])
+
+
+def create_initial_config():
+    create_config()

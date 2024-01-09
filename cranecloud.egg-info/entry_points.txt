@@ -1,2 +1,3 @@
 [console_scripts]
 cranecloud = src.cranecloud:cli
+create-config = src.cranecloud:create_initial_config
