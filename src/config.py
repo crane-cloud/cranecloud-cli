@@ -1,6 +1,7 @@
-# Configuration file for CraneCloud CLI
-import os
-# API Base URL
-API_BASE_URL = os.getenv('API_BASE_URL', "https://api.cranecloud.io")
+from src.cranecloud.utils.config import read_config
+
+# Example usage of the config values
+settings = read_config()['GlobalSettings']
+API_BASE_URL = settings.get('base_url')
 
 USER_INFO_URL = {}

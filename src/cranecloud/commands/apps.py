@@ -4,7 +4,7 @@ import requests
 from src.config import API_BASE_URL
 from tabulate import tabulate
 
-from src.cranecloud.helpers import get_token
+from src.cranecloud.utils import get_token
 
 
 @click.group()
