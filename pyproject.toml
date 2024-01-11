@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cranecloud"
-version = "0.0.3"
+version = "0.0.5"
 authors = [
   { name="cranecloud", email="allan@cranecloud.io" },
 ]
@@ -26,7 +26,8 @@ dependencies = [
     "rich",
     "python-dotenv",
     "urllib3==2.1.0",
-    "toml==0.10.2"
+    "toml==0.10.2",
+    "configparser==6.0.0"
 ]
 
 [project.optional-dependencies]

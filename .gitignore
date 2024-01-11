@@ -4,7 +4,20 @@ venv/
 .env
 *.pyc
 .coverage
-.vscode/
-.DS_Store
-.idea/
 .pytest_cache/
+# build products...
+*.py[co]
+build
+dist
+AUTHORS.TXT
+# Eclipse/PyDev stuff...
+.project
+.pydevproject
+# PyCharm stuff...
+.idea
+#IntelliJ IDEA stuff..
+*.iml
+#VSCode stuff..
+.vscode/
+# Mac OS X stuff...
+.DS_Store

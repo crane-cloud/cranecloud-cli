@@ -3,8 +3,8 @@ import requests
 from src.config import API_BASE_URL
 import keyring
 from tabulate import tabulate
-
-from src.cranecloud.helpers import get_token
+from src.cranecloud.utils import get_token
+from src.cranecloud.utils.config import write_config
 
 
 @click.group()
@@ -12,7 +12,7 @@ def user_group():
     pass
 
 
-@user_group.group(name='users')
+@user_group.group(name='auth')
 def user():
     """
     User management commands.
@@ -20,7 +20,7 @@ def user():
     pass
 
 
-@user_group.command('login', help='Login to CraneCloud.')
+@user.command('login', help='Login to CraneCloud.')
 @click.option('-e', '--email', prompt=True, help='Your username', type=str)
 @click.password_option('-p', '--password', help='Your password')
 def login(email, password):
@@ -39,6 +39,10 @@ def login(email, password):
             keyring.set_password("cranecloud", "token",
                                  user_body['access_token'])
             keyring.set_password("cranecloud", "user_id", user_body['id'])
+            write_config('current_user', {
+                'id': user_body['id'],
+                'name': user_body['name'],
+                'email': user_body['email']})
             click.echo("Login successful!")
         else:
             click.echo("Login failed. Please check your credentials.")
@@ -53,9 +57,10 @@ def login(email, password):
                 "Please check your internet connection or try again later.")
 
 
-@user_group.command('logout', help='Logout user from CraneCloud.')
+@user.command('logout', help='Logout user from CraneCloud.')
 def logout():
     """ Logout from CraneCloud."""
+    write_config('current_user', "Null", should_update=False)
     if keyring.get_password("cranecloud", "token") is None:
         click.echo("You are not logged in.")
         return
@@ -67,7 +72,7 @@ def logout():
         click.echo("Logout failed. Please try again later.")
 
 
-@user.command('info', help='Display current user info.')
+@user.command('user', help='Display current user info.')
 def get_user_info():
     """Get current user info."""
     click.echo("Getting user info...\n")

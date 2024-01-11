@@ -9,3 +9,5 @@ def get_token():
         click.echo('Please login first.')
         exit(1)
     return token
+
+
