@@ -3,7 +3,7 @@ import click
 import requests
 from src.config import API_BASE_URL
 from tabulate import tabulate
-
+from src.config import CURRENT_PROJECT
 from src.cranecloud.utils import get_token
 
 
@@ -21,10 +21,17 @@ def apps():
 
 
 @apps.command('list', help='List apps in project')
-@click.option('-p', '--project_id', type=click.UUID, required=True)
+@click.option('-p', '--project_id', type=click.UUID, help='Project ID')
 def get_apps(project_id):
     '''Get apps in project.'''
     click.echo('Getting apps list...')
+    if not project_id:
+        try:
+            project_id = CURRENT_PROJECT['id']
+        except KeyError:
+            click.echo(
+                'Error: Please specify a project_id or \n\tset a current project using cranecloud projects use-project')
+            return
     try:
         token = get_token()
         response = requests.get(
@@ -123,16 +130,25 @@ def delete_app(app_id):
 
 
 @apps.command('deploy', help='Deploy an application')
-@click.option('-p', '--project_id', type=click.UUID, required=True)
 @click.option('-n', '--name', type=str, required=True, help='App name')
 @click.option('-i', '--image', type=str, required=True, help='App image')
 @click.option('-c', '--command', type=str, default='', help='App command')
 @click.option('-r', '--replicas', type=int, default=1, help='App replicas, default is 1')
 @click.option('-o', '--port', type=int, default=80, help='App port, default is 80')
 @click.option('-e', '--env', multiple=True, help='Environment variables in key=value format')
+@click.option('-p', '--project_id', type=click.UUID, help='Project ID')
 def deploy_app(project_id, name, image, command, replicas, port, env):
     '''Deploy an application.'''
     click.echo('Deploying app...')
+
+    if not project_id:
+        try:
+            project_id = CURRENT_PROJECT['id']
+        except KeyError:
+            click.echo(
+                'Error: Please specify a project_id or \n\tset a current project using cranecloud projects use-project')
+            return
+
     try:
         token = get_token()
         data = {

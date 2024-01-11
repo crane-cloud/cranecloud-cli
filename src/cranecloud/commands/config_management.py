@@ -1,5 +1,6 @@
 import click
 from tabulate import tabulate
+from src.cranecloud.commands.projects import set_use_project
 from src.config import CURRENT_PROJECT, CURRENT_USER
 from src.cranecloud.utils.config import read_config
 
