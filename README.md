@@ -1,4 +1,4 @@
-# Cranecloud CLI Cleint
+# Cranecloud CLI Client
 
 Cranecloud CLI client is a command line tool for interacting with Cranecloud.
 
