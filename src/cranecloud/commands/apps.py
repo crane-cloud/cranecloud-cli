@@ -25,13 +25,12 @@ def apps():
 def get_apps(project_id):
     '''Get apps in project.'''
     click.echo('Getting apps list...')
-    if not project_id:
-        try:
-            project_id = CURRENT_PROJECT['id']
-        except KeyError:
-            click.echo(
-                'Error: Please specify a project_id or \n\tset a current project using cranecloud projects use-project')
-            return
+    try:
+        project_id = project_id or CURRENT_PROJECT['id']
+    except KeyError:
+        click.echo(
+            'Error: Please specify a project_id or \n\tset a current project using cranecloud projects use-project')
+        return
     try:
         token = get_token()
         response = requests.get(
@@ -141,13 +140,12 @@ def deploy_app(project_id, name, image, command, replicas, port, env):
     '''Deploy an application.'''
     click.echo('Deploying app...')
 
-    if not project_id:
-        try:
-            project_id = CURRENT_PROJECT['id']
-        except KeyError:
-            click.echo(
-                'Error: Please specify a project_id or \n\tset a current project using cranecloud projects use-project')
-            return
+    try:
+        project_id = project_id or CURRENT_PROJECT['id']
+    except KeyError:
+        click.echo(
+            'Error: Please specify a project_id or \n\tset a current project using cranecloud projects use-project')
+        return
 
     try:
         token = get_token()

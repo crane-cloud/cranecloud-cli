@@ -13,4 +13,9 @@ try:
 except KeyError:
     CURRENT_USER = {}
 
+try:
+    CURRENT_CLUSTER = config_file['current_cluster']
+except KeyError:
+    CURRENT_CLUSTER = {}
+
 USER_INFO_URL = {}

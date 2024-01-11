@@ -1,7 +1,7 @@
 import click
 import requests
 from src.cranecloud.utils.config import write_config
-from src.config import API_BASE_URL
+from src.config import API_BASE_URL, CURRENT_CLUSTER
 from tabulate import tabulate
 
 from src.cranecloud.utils import get_token
@@ -33,8 +33,10 @@ def get_clusters_list():
             clusters = response.json()['data']['clusters']
             table_data = []
             for cluster in clusters:
+                cluster_name = cluster.get('name')+' *' if cluster.get(
+                    'id') == CURRENT_CLUSTER.get('id') else cluster.get('name')
                 table_data.append(
-                    [cluster.get('id'), cluster.get('name'),  cluster.get('description')])
+                    [cluster.get('id'), cluster_name,  cluster.get('description')])
             headers = ['ID', 'Name',  'Description']
             click.echo(tabulate(table_data, headers, tablefmt='simple'))
         else:
