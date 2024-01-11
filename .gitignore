@@ -8,6 +8,7 @@ venv/
 # build products...
 *.py[co]
 build
+dist
 AUTHORS.TXT
 # Eclipse/PyDev stuff...
 .project

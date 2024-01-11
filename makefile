@@ -26,7 +26,7 @@ sync-req: venv ## sync the requirements
 	@ ${INFO} "Requirements successfully synced"
 	@ echo " "
 
-upload: venv ## upload the package to pypi
+upload-pypi: venv ## upload the package to pypi
 	@ ${INFO} "Uploading the package to pypi"
 	@ source venv/bin/activate && python3 -m twine upload -r testpypi dist/*
 	@ ${INFO} "Package successfully uploaded"
