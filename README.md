@@ -1,32 +1,6 @@
-# Cranecloud CLI Cleint
+# Cranecloud CLI Client
 
-Cranecloud CLI client
-
-### Setup
-
-1. **Create** and activate a virtual environment
-
-   ```bash
-   python3 -m venv venv
-   ```
-
-2. **Install:** Run the Cranecloud CLI client setup.
-
-   ```bash
-   pip install --editable .
-   ```
-
-3. Add `API_BASE_URL` that points to cc backend to your `.env` file
-
-   ```bash
-   export API_BASE_URL=""
-   ```
-
-4. Run Cranecloud commands
-
-   ```bash
-   cranecloud --help
-   ```
+Cranecloud CLI client is a command line tool for interacting with Cranecloud.
 
 ## Basic Commands
 
@@ -35,19 +9,19 @@ Cranecloud CLI client
 1. **Login:** Authenticate the user with their credentials.
 
    ```bash
-   cranecloud login
+   cranecloud auth login
    ```
 
 2. **Logout:** Log out the user, clearing the stored credentials.
 
    ```bash
-   cranecloud logout
+   cranecloud auth logout
    ```
 
 3. **User Information:** Retrieve information about the logged-in user.
 
    ```bash
-   cranecloud user info
+   cranecloud auth user
    ```
 
 ### Project Management
@@ -61,7 +35,7 @@ Cranecloud CLI client
 2. **Create Project:** Create a new project.
 
    ```bash
-   cranecloud projects create --name "ProjectName"
+   cranecloud projects create ...
    ```
 
 3. **Delete Project:** Delete a project by ID or name.
@@ -76,30 +50,50 @@ Cranecloud CLI client
    cranecloud projects info --id <project_id>
    ```
 
-### App Commands
+### Configuration Management
 
-1. **Deploy App:** Initiate a app to a specific environment.
+1. **List Config:** Show a list of config available for the app.
 
    ```bash
-   cranecloud apps --project-id <project_id> --environment <env_name>
+   cranecloud config get-config
+   ```
+
+2. **Set current project to use:** This is projects apps commands will default to.
+
+   ```bash
+   cranecloud projects use-project <project_id>
+   ```
+
+3. **Set current cluster to use:** This is cluster projects commands will default to.
+
+   ```bash
+   cranecloud projects use-project <cluster_id>
+   ```
+
+### App Commands
+
+1. **Deploy App:** Initiate a app .
+
+   ```bash
+   cranecloud apps deploy
    ```
 
 2. **List Apps:** Show apps within a project.
 
    ```bash
-   cranecloud apps list --project-id <project_id>
+   cranecloud apps list 
    ```
 
-3. **Rollback App:** Roll back to a previous app version.
+3. **Update App:** Update app information.
 
    ```bash
-   cranecloud apps rollback --project-id <project_id> --app-id <app_id>
+   cranecloud apps update  <app_id>
    ```
 
 4. **App Details:** View detailed information about a specific app.
 
    ```bash
-   cranecloud apps info --project-id <project_id> --app-id <app_id>
+   cranecloud apps info  <app_id>
    ```
 
 5. **Delete App:** Delete a app by ID or name.
