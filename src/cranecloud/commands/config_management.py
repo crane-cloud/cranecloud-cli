@@ -1,7 +1,7 @@
 import click
-from tabulate import tabulate
+from tabulate import SEPARATING_LINE, tabulate
 from src.cranecloud.commands.projects import set_use_project
-from src.config import CURRENT_PROJECT, CURRENT_USER
+from src.config import CURRENT_CLUSTER, CURRENT_PROJECT, CURRENT_USER
 from src.cranecloud.utils.config import read_config
 
 
@@ -28,11 +28,15 @@ def get_config():
     except KeyError:
         global_settings = {}
 
+    current_project = f"id:\t{CURRENT_PROJECT.get('id')} \nname:\t{CURRENT_PROJECT.get('name')}" if CURRENT_PROJECT else None
+    current_cluster = f"id:\t{CURRENT_CLUSTER.get('id')} \nname:\t{CURRENT_CLUSTER.get('name')}" if CURRENT_CLUSTER else None
+    current_user = f"name:\t{CURRENT_USER.get('name')} \nemail:\t{CURRENT_USER.get('email')}" if CURRENT_USER else None
+
     config_data = {
         'base_url': global_settings.get('base_url'),
-        'current_project': f"{CURRENT_PROJECT.get('id')} \n{CURRENT_PROJECT.get('name')}",
-        'current_user': CURRENT_USER.get('email'),
-        'current_cluster': global_settings.get('current_cluster'),
+        'current_project': current_project,
+        'current_user': current_user,
+        'current_cluster': current_cluster,
     }
     table_data = []
     for key, value in config_data.items():

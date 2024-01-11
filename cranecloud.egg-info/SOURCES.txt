@@ -18,4 +18,5 @@ src/cranecloud/commands/config_management.py
 src/cranecloud/commands/projects.py
 src/cranecloud/commands/test_user_management.py
 src/cranecloud/commands/user_management.py
-src/cranecloud/helpers/__init__.py
+src/cranecloud/utils/__init__.py
+src/cranecloud/utils/config.py

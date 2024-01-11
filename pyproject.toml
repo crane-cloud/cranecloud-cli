@@ -39,11 +39,9 @@ Issues = "https://github.com/crane-cloud/cranecloud-cli/issues"
 
 [project.scripts]
 cranecloud = "src.cranecloud:cli"
-create-config = "src.cranecloud:create_initial_config"
 
 [entry_points]
 console_scripts =[
-    'create-config=src.cranecloud:create_initial_config',
     'cranecloud = src.cranecloud:cli',
 ]
 
