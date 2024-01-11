@@ -1,5 +1,6 @@
 import click
 from tabulate import tabulate
+from src.config import CURRENT_PROJECT, CURRENT_USER
 from src.cranecloud.utils.config import read_config
 
 
@@ -26,16 +27,11 @@ def get_config():
     except KeyError:
         global_settings = {}
 
-    try:
-        user_settings = config_file['current_user']
-    except KeyError:
-        user_settings = {}
-
     config_data = {
         'base_url': global_settings.get('base_url'),
-        'current_project': global_settings.get('current_project'),
+        'current_project': f"{CURRENT_PROJECT.get('id')} \n{CURRENT_PROJECT.get('name')}",
+        'current_user': CURRENT_USER.get('email'),
         'current_cluster': global_settings.get('current_cluster'),
-        'current_user': user_settings.get('email'),
     }
     table_data = []
     for key, value in config_data.items():

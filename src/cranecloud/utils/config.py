@@ -24,26 +24,26 @@ def read_config():
     return config
 
 
-def write_config(key, value):
+def write_config(key, value, should_update=True):
     config = configparser.ConfigParser()
     crane_dir = get_base_dir()
     config_file = os.path.join(crane_dir, CONFIG_FILE)
     os.makedirs(crane_dir, exist_ok=True)
 
     config.read(config_file)
+    if not should_update:
+        config.remove_section(key)
 
-    # Update the configuration
     if type(value) is dict:
-        if config.has_section(key):
-            config.remove_section(key)
-        config.add_section(key)
+        if not config.has_section(key):
+            config.add_section(key)
+
         for k, v in value.items():
-            config.set(key, k, v)
+            config.set(str(key), str(k), str(v))
     else:
         if not config.has_section('GlobalSettings'):
             config.add_section('GlobalSettings')
         config.set('GlobalSettings', key, value)
 
-    # Write the updated configuration back to the file
     with open(config_file, 'w') as configfile:
         config.write(configfile)

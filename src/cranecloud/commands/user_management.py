@@ -60,6 +60,7 @@ def login(email, password):
 @user.command('logout', help='Logout user from CraneCloud.')
 def logout():
     """ Logout from CraneCloud."""
+    write_config('current_user', "Null", should_update=False)
     if keyring.get_password("cranecloud", "token") is None:
         click.echo("You are not logged in.")
         return

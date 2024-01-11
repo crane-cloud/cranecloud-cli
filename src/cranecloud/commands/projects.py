@@ -1,7 +1,8 @@
 import click
 import requests
-from src.config import API_BASE_URL
 from tabulate import tabulate
+from src.config import API_BASE_URL, CURRENT_PROJECT
+from src.cranecloud.utils.config import write_config
 
 from src.cranecloud.utils import get_token
 
@@ -28,12 +29,15 @@ def get_projects_list():
         response = requests.get(
             f"{API_BASE_URL}/projects", headers={'Authorization': f"Bearer {token}"})
         response.raise_for_status()
+
         if response.status_code == 200:
             projects = response.json()['data']['projects']
             table_data = []
             for project in projects:
+                project_name = project.get('name')+' *' if project.get(
+                    'id') == CURRENT_PROJECT.get('id') else project.get('name')
                 table_data.append(
-                    [project.get('id'), project.get('name'), project.get('apps_count'), project.get('disabled'), project.get('age')])
+                    [project.get('id'), project_name, project.get('apps_count'), project.get('disabled'), project.get('age')])
             headers = ['ID', 'Name', 'Apps Count', 'Disabled', 'Age']
             click.echo(tabulate(table_data, headers, tablefmt='simple'))
         else:
@@ -112,6 +116,36 @@ def delete_project(project_id):
             click.echo('Project does not exist')
         elif e.response or e.response.reason:
             click.echo(f"Failed to delete project: {e.response.reason}")
+        else:
+            click.echo(f"Failed to connect to the server: {e}")
+            click.echo(
+                "Please check your internet connection or try again later.")
+
+
+@projects.command('use-project', help='Set current project to use')
+@click.argument('project_id', type=click.UUID)
+def set_use_project(project_id):
+    """set current project to use"""
+    click.echo("Setting current project...")
+    try:
+        token = get_token()
+        response = requests.get(
+            f"{API_BASE_URL}/projects/{project_id}", headers={'Authorization': f"Bearer {token}"})
+        response.raise_for_status()
+        if response.status_code == 200:
+            project = response.json()['data']['project']
+            write_config('current_project', {
+                'id': project.get('id'),
+                'name': project.get('name'),
+                'apps_count': project.get('apps_count')})
+            click.echo(f"Project id {project_id} set successfully.")
+        else:
+            click.echo("Failed to get project details.")
+    except requests.RequestException as e:
+        if e.response or e.response.status_code == 404:
+            click.echo('Project does not exist')
+        elif e.response or e.response.reason:
+            click.echo(f"Error: {e.response.reason}")
         else:
             click.echo(f"Failed to connect to the server: {e}")
             click.echo(
