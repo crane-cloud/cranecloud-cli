@@ -62,11 +62,20 @@ def get_app_details(app_id):
     click.echo('Getting app details...\n')
     try:
         token = get_token()
+
+        # Getting details
         response = requests.get(
             f'{API_BASE_URL}/apps/{app_id}', headers={'Authorization': f'Bearer {token}'})
         response.raise_for_status()
-        if response.status_code == 200:
+
+        # Getting revisions
+        revisions_response = requests.get(
+            f'{API_BASE_URL}/apps/{app_id}/revisions', headers={'Authorization': f'Bearer {token}'})
+
+
+        if response.status_code == 200 and revisions_response.status_code == 200:
             app = response.json()['data']['apps']
+            revisions = revisions_response.json()['data']['revisions']
             table_data = [
                 ['ID', app.get('id')],
                 ['Name', app.get('name')],
@@ -88,6 +97,7 @@ def get_app_details(app_id):
                 ['Age', app.get('age')],
                 ['Date Created', app.get('date_created')],
                 ['Env Vars', json.dumps(app.get('env_vars'), indent=4)],
+                ['Revisions' , json.dumps(revisions,indent=4)]
             ]
             click.echo(tabulate(table_data, tablefmt='plain'))
         else:
@@ -224,3 +234,40 @@ def update_app(app_id, name, image, command, replicas, port, env):
             click.echo(f'Failed to connect to the server: {e}')
             click.echo(
                 'Please check your internet connection or try again later.')
+
+
+
+@apps.command('rollback', help='Rolling back an application')
+@click.option('-v', '--version', type=str, help='App revision id of the app to roll back to')
+@click.argument('app_id', type=click.UUID)
+def rollback_app(app_id , version):
+    '''Make an app roll back.'''
+    click.echo('Rolling back app...')
+    try:
+        token = get_token()
+
+
+        response = requests.post(
+            f'{API_BASE_URL}/apps/{app_id}/revise/{version}',
+            headers={'Authorization': f'Bearer {token}'}
+        )
+        response.raise_for_status()
+
+        if response.status_code == 200 :
+            click.echo('App revised successfully.')
+
+        else :
+            click.echo('An error occured. Could not revise the application.')
+
+    except requests.RequestException as e:
+        if e.response not in [None, '']:
+            click.echo(
+                click.style(f'Failed to revise the app\n', fg='red') +
+                e.response.json().get('message'))
+        else:
+            click.echo(f'Failed to connect to the server: {e}')
+            click.echo(
+                'Please check your internet connection or try again later.')
+
+    
+    
