@@ -19,6 +19,18 @@ def apps():
     '''
     pass
 
+@click.group()
+def revisions_group():
+    pass
+
+
+@revisions_group.group(name='revisions')
+def revisions():
+    '''
+    Revisions management commands.
+    '''
+    pass
+
 
 @apps.command('list', help='List apps in project')
 @click.option('-p', '--project_id', type=click.UUID, help='Project ID')
@@ -106,7 +118,7 @@ def get_app_details(app_id):
                 'Please check your internet connection or try again later.')
 
 
-@apps.command('delete', help='Delete App')
+@apps.command('delete', help='Delete App [Example : cranecloud apps delete <application id>]')
 @click.argument('app_id', type=click.UUID)
 def delete_app(app_id):
     '''Delete app.'''
@@ -229,9 +241,9 @@ def update_app(app_id, name, image, command, replicas, port, env):
                 'Please check your internet connection or try again later.')
 
 
-@apps.command('revisions', help='List app revisions')
+@revisions.command('list', help='List app revisions')
 @click.argument('app_id', type=click.UUID)
-@click.option('-p', '--page', type=int, help='Page' , required=False)
+@click.option('--page', type=int, help='Page' , required=False)
 def get_revisions(app_id , page):
     '''Get application revisions .'''
     click.echo('Getting app revisions ... ')
@@ -271,18 +283,18 @@ def get_revisions(app_id , page):
 
 
 
-@apps.command('rollback', help='Rolling back an application')
-@click.option('-v', '--version', type=str, help='App revision id of the app to roll back to')
+@revisions.command('update', help='Update an application to a specific revision id')
+@click.option('-r', '--revision', type=str, help='Revision id of the application' , required = True)
 @click.argument('app_id', type=click.UUID)
-def rollback_app(app_id , version):
-    '''Make an app roll back.'''
-    click.echo('Rolling back app...')
+def update_app(app_id , revision):
+    '''Make an app update.'''
+    click.echo(f'Updating application to revision {revision} ...')
     try:
         token = get_token()
 
 
         response = requests.post(
-            f'{API_BASE_URL}/apps/{app_id}/revise/{version}',
+            f'{API_BASE_URL}/apps/{app_id}/revise/{revision}',
             headers={'Authorization': f'Bearer {token}'}
         )
         response.raise_for_status()
@@ -305,3 +317,6 @@ def rollback_app(app_id , version):
 
     
     
+
+
+
