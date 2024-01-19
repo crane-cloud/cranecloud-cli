@@ -9,5 +9,5 @@
 2. **Install:** Run the Cranecloud CLI client setup.
 
    ```bash
-   make setup
+   make setup --user
    ```

@@ -3,7 +3,7 @@ help:  ## Display this help
 
 setup: venv ## run application setup
 	@ ${INFO} "Setting up the project"
-	@ source venv/bin/activate && pip3 install -e .
+	@ source venv/bin/activate && pip3 install -e . --user
 	@ ${INFO} "Project successfully setup"
 	@ echo " "
 

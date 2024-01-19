@@ -1,3 +1,6 @@
+import site
+site.ENABLE_USER_SITE = False
+
 from setuptools import setup, find_packages
 
 setup(
