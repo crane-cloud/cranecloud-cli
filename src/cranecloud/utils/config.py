@@ -11,22 +11,24 @@ def get_base_dir():
     return crane_dir
 
 
-def create_config():
+def create_config(crane_config_path = get_base_dir()):
     default_base_url = os.getenv('API_BASE_URL', "https://api.cranecloud.io")
-    write_config('base_url', default_base_url)
+
+    write_config('base_url', default_base_url , crane_dir=crane_config_path)
+    write_config('CRANE_CONFIG' , crane_config_path , crane_dir = crane_config_path)
 
 
-def read_config():
+def read_config(crane_config = get_base_dir()):
     config = configparser.ConfigParser()
-    crane_dir = get_base_dir()
-    config_file = os.path.join(crane_dir, CONFIG_FILE)
+    #crane_dir = get_base_dir()
+    config_file = os.path.join(crane_config, CONFIG_FILE)
     config.read(config_file)
     return config
 
 
-def write_config(key, value, should_update=True):
+def write_config(key, value, should_update=True , crane_dir = get_base_dir()):
     config = configparser.ConfigParser()
-    crane_dir = get_base_dir()
+    # crane_dir = get_base_dir()
     config_file = os.path.join(crane_dir, CONFIG_FILE)
     os.makedirs(crane_dir, exist_ok=True)
 
