@@ -19,12 +19,8 @@ def apps():
     '''
     pass
 
-@click.group()
-def revisions_group():
-    pass
 
-
-@revisions_group.group(name='revisions')
+@apps.group(name='revisions')
 def revisions():
     '''
     Revisions management commands.
