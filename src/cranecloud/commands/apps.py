@@ -114,7 +114,7 @@ def get_app_details(app_id):
                 'Please check your internet connection or try again later.')
 
 
-@apps.command('delete', help='Delete App [Example : cranecloud apps delete <application id>]')
+@apps.command('delete', help='Delete App')
 @click.argument('app_id', type=click.UUID)
 def delete_app(app_id):
     '''Delete app.'''
