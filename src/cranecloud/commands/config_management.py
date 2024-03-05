@@ -46,11 +46,10 @@ def get_config():
     click.echo(tabulate(table_data, headers, tablefmt='simple'))
 
 
-@config.command('create-config', help='Create CraneCloud configuration.')
+@config.command('use-config', help='Create CraneCloud configuration.')
 @click.argument('config_path', type=click.STRING)
 def change_config(config_path):
-    print(config_path)
 
-    os.makedirs(config_path, exist_ok=True)
-    create_config(config_path)
+    os.makedirs(os.path.join(config_path, '.crane') , exist_ok=True)
+    create_config(os.path.join(config_path, '.crane'))
     
