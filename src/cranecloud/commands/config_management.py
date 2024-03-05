@@ -2,8 +2,9 @@ import click
 from tabulate import SEPARATING_LINE, tabulate
 from src.cranecloud.commands.projects import set_use_project
 from src.config import CURRENT_CLUSTER, CURRENT_PROJECT, CURRENT_USER
-from src.cranecloud.utils.config import read_config
+from src.cranecloud.utils.config import read_config , create_config
 
+import os
 
 @click.group()
 def config_group():
@@ -43,3 +44,12 @@ def get_config():
         table_data.append([key, value])
     headers = ['Key', 'Value']
     click.echo(tabulate(table_data, headers, tablefmt='simple'))
+
+
+@config.command('use-config', help='Create CraneCloud configuration.')
+@click.argument('config_path', type=click.STRING)
+def change_config(config_path):
+
+    os.makedirs(os.path.join(config_path, '.crane') , exist_ok=True)
+    create_config(os.path.join(config_path, '.crane'))
+    

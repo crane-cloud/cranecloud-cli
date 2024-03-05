@@ -20,6 +20,14 @@ def apps():
     pass
 
 
+@apps.group(name='revisions')
+def revisions():
+    '''
+    Revisions management commands.
+    '''
+    pass
+
+
 @apps.command('list', help='List apps in project')
 @click.option('-p', '--project_id', type=click.UUID, help='Project ID')
 def get_apps(project_id):
@@ -62,9 +70,12 @@ def get_app_details(app_id):
     click.echo('Getting app details...\n')
     try:
         token = get_token()
+
+        # Getting details
         response = requests.get(
             f'{API_BASE_URL}/apps/{app_id}', headers={'Authorization': f'Bearer {token}'})
         response.raise_for_status()
+
         if response.status_code == 200:
             app = response.json()['data']['apps']
             table_data = [
@@ -224,3 +235,84 @@ def update_app(app_id, name, image, command, replicas, port, env):
             click.echo(f'Failed to connect to the server: {e}')
             click.echo(
                 'Please check your internet connection or try again later.')
+
+
+@revisions.command('list', help='List app revisions')
+@click.argument('app_id', type=click.UUID)
+@click.option('--page', type=int, help='Page' , required=False)
+def get_revisions(app_id , page):
+    '''Get application revisions .'''
+    click.echo('Getting app revisions ... ')
+    try:
+
+        token = get_token()
+
+
+        # Getting revisions
+        response = requests.get(
+            f'{API_BASE_URL}/apps/{app_id}/revisions', headers={'Authorization': f'Bearer {token}'} ,
+            params={'page' : page}
+            )
+
+        response.raise_for_status()
+
+        if response.status_code == 200:
+            revisions = response.json()['data']['revisions']
+            table_data = []
+
+            for revision in revisions:
+                table_data.append(
+                    [revision.get('revision') , revision.get('revision_id') , revision.get('replicas') , revision.get('created_at') , revision.get('image') , revision.get('port') , revision.get('current' , '') , revision.get('command')])
+            headers = ['Revision' , 'Revision id' , 'Replicas' , 'Date created' , 'image' , 'Port' , 'Current' , 'Command']
+            click.echo(tabulate(table_data, headers, tablefmt='simple'))
+
+            click.echo(f"Page {response.json()['data']['pagination']['page']} of {response.json()['data']['pagination']['pages']} ....")
+        else:
+            click.echo('Failed to get app revisions list.')
+    except requests.RequestException as e:
+        if e.response or e.response.reason:
+            click.echo(f'Error: {e.response.reason}')
+        else:
+            click.echo(f'Failed to connect to the server: {e}')
+            click.echo(
+                'Please check your internet connection or try again later.')
+
+
+
+@revisions.command('update', help='Update an application to a specific revision id')
+@click.option('-r', '--revision', type=str, help='Revision id of the application' , required = True)
+@click.argument('app_id', type=click.UUID)
+def update_app(app_id , revision):
+    '''Make an app update.'''
+    click.echo(f'Updating application to revision {revision} ...')
+    try:
+        token = get_token()
+
+
+        response = requests.post(
+            f'{API_BASE_URL}/apps/{app_id}/revise/{revision}',
+            headers={'Authorization': f'Bearer {token}'}
+        )
+        response.raise_for_status()
+
+        if response.status_code == 200 :
+            click.echo('App revised successfully.')
+
+        else :
+            click.echo('An error occured. Could not revise the application.')
+
+    except requests.RequestException as e:
+        if e.response not in [None, '']:
+            click.echo(
+                click.style(f'Failed to revise the app\n', fg='red') +
+                e.response.json().get('message'))
+        else:
+            click.echo(f'Failed to connect to the server: {e}')
+            click.echo(
+                'Please check your internet connection or try again later.')
+
+    
+    
+
+
+
