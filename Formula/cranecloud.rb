@@ -11,15 +11,20 @@ class Cranecloud < Formula
   
     def install
         virtualenv_install_with_resources
-
-        # Create a wrapper script that sets the environment variable
-        (bin/"cranecloud-with-env").write <<~EOS
-        #!/bin/bash
-        export API_BASE_URL="https://api.cranecloud.io"
-        exec "#{bin}/cranecloud" "$@"
+        
+        # Get the path to the original script
+        original_script = bin/"cranecloud"
+        original_content = File.read(original_script)
+        
+        # Create a new script with the environment variable
+        File.write(original_script, <<~EOS)
+          #!/bin/bash
+          export API_BASE_URL="https://api.cranecloud.io"
+          exec /usr/bin/env python3 "#{libexec}/bin/cranecloud" "$@"
         EOS
-        chmod 0755, bin/"cranecloud-with-env"
-    end
+        
+        chmod 0755, original_script
+      end
   
     test do
       system "#{bin}/cranecloud", "--help"
