@@ -10,23 +10,16 @@ class Cranecloud < Formula
     depends_on "python@3.11"
   
     def install
+        # Set environment variable during installation
+        ENV["API_BASE_URL"] = "https://api.cranecloud.io"
+
         virtualenv_install_with_resources
-        
-        # Get the path to the original script
-        original_script = bin/"cranecloud"
-        original_content = File.read(original_script)
-        
-        # Create a new script with the environment variable
-        File.write(original_script, <<~EOS)
-          #!/bin/bash
-          export API_BASE_URL="https://api.cranecloud.io"
-          exec /usr/bin/env python3 "#{libexec}/bin/cranecloud" "$@"
-        EOS
-        
-        chmod 0755, original_script
       end
   
     test do
+      # Check if the environment variable is set correctly
+      assert_match "https://api.cranecloud.io", shell_output("echo $API_BASE_URL")
+
       system "#{bin}/cranecloud", "--help"
     end
   end
