@@ -15,7 +15,7 @@ class Cranecloud < Formula
     end
       
     resource "requests" do
-        url "https://files.pythonhosted.org/packages/source/r/requests/requests-2.31.0.tar.gz"
+        url "https://files.pythonhosted.org/packages/source/r/requests/requests-2.32.3.tar.gz"
         sha256 "55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760"
     end
     
