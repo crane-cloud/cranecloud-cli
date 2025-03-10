@@ -5,7 +5,7 @@ class Cranecloud < Formula
     sha256 "f7242445a3c9f1452b37f762363d2f23af4c4fc06177595187f12372074b123a"
     license "MIT"
 
-    depends_on "python@3.8"
+    depends_on "python@3.11"
   
     def install
         virtualenv_install_with_resources
