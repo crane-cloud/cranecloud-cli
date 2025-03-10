@@ -1,6 +1,6 @@
 class Cranecloud < Formula
     include Language::Python::Virtualenv
-    
+
     desc "CraneCloud CLI tool"
     homepage "https://github.com/crane-cloud/cranecloud-cli"
     url "https://files.pythonhosted.org/packages/source/c/cranecloud/cranecloud-0.0.5.tar.gz"
@@ -11,7 +11,14 @@ class Cranecloud < Formula
   
     def install
         virtualenv_install_with_resources
-        (bin/"cranecloud").write_env_script libexec/"bin/cranecloud", API_BASE_URL: "https://api.cranecloud.io"
+
+        # Create a wrapper script that sets the environment variable
+        (bin/"cranecloud-with-env").write <<~EOS
+        #!/bin/bash
+        export API_BASE_URL="https://api.cranecloud.io"
+        exec "#{bin}/cranecloud" "$@"
+        EOS
+        chmod 0755, bin/"cranecloud-with-env"
     end
   
     test do
