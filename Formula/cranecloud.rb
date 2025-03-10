@@ -10,7 +10,7 @@ class Cranecloud < Formula
     depends_on "python@3.11"
 
     resource "Click" do
-        url "https://files.pythonhosted.org/packages/source/c/click/Click-8.1.8.tar.gz"
+        url "https://files.pythonhosted.org/packages/source/c/click/click-8.1.8.tar.gz"
         sha256 "ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a"
     end
       
