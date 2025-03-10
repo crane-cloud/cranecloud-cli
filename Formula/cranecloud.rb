@@ -45,8 +45,8 @@ class Cranecloud < Formula
     end
     
     resource "python-dotenv" do
-        url "https://files.pythonhosted.org/packages/source/p/python-dotenv/python-dotenv-0.0.1.tar.gz"
-        sha256 "362e170ca8fd69a70c1aca1fda2ddad0ac270e161e81e59f4039ec11decc14fa"
+        url "https://files.pythonhosted.org/packages/source/p/python-dotenv/python-dotenv-1.0.1.tar.gz"
+        sha256 "e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca"
     end
     
     resource "urllib3" do
