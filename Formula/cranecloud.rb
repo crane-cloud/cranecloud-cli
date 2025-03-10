@@ -35,7 +35,7 @@ class Cranecloud < Formula
     end
     
     resource "Pygments" do
-        url "https://files.pythonhosted.org/packages/source/p/pygments/Pygments-2.19.1.tar.gz"
+        url "https://files.pythonhosted.org/packages/source/p/pygments/pygments-2.19.1.tar.gz"
         sha256 "61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f"
     end
     
