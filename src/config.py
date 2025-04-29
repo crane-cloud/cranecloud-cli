@@ -1,13 +1,15 @@
-from src.cranecloud.utils.config import create_config, read_config
+from cranecloud.utils.config import create_config, read_config
 
 # Example usage of the config values
 config_file = read_config()
 try:
     API_BASE_URL = config_file['GlobalSettings']['base_url']
+    MLOPS_API_BASE_URL = config_file['GlobalSettings']['mlops_base_url']
 except KeyError:
     create_config()
     config_file = read_config()
     API_BASE_URL = config_file['GlobalSettings'].get('base_url')
+    API_BASE_URL = config_file['GlobalSettings'].get('mlops_base_url')
 try:
     CURRENT_PROJECT = config_file['current_project']
 except KeyError:
