@@ -1,11 +1,11 @@
-from src.cranecloud.utils.config import create_config, read_config
+from src.cranecloud.utils.config import create_config, read_config , create_initial_config
 
 # Example usage of the config values
 config_file = read_config()
 try:
     API_BASE_URL = config_file['GlobalSettings']['base_url']
 except KeyError:
-    create_config()
+    create_initial_config()
     config_file = read_config()
     API_BASE_URL = config_file['GlobalSettings'].get('base_url')
 try:
