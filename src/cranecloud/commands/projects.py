@@ -1,11 +1,11 @@
 import click
 import requests
 from tabulate import tabulate
-from src.config import (API_BASE_URL, CURRENT_PROJECT,
+from config import (API_BASE_URL, CURRENT_PROJECT,
                         CURRENT_CLUSTER, CURRENT_USER)
-from src.cranecloud.utils.config import write_config
+from cranecloud.utils.config import write_config
 
-from src.cranecloud.utils import get_token
+from cranecloud.utils import get_token
 
 
 @click.group()

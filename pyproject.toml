@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cranecloud"
-version = "0.0.5"
+version = "0.0.6"
 authors = [
   { name="cranecloud", email="allan@cranecloud.io" },
 ]
@@ -38,10 +38,10 @@ Homepage = "https://github.com/crane-cloud/cranecloud-cli"
 Issues = "https://github.com/crane-cloud/cranecloud-cli/issues"
 
 [project.scripts]
-cranecloud = "src.cranecloud:cli"
+cranecloud = "cranecloud:cli"
 
 [entry_points]
 console_scripts =[
-    'cranecloud = src.cranecloud:cli',
+    'cranecloud = cranecloud:cli',
 ]
 
