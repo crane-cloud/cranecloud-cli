@@ -1,0 +1,41 @@
+name: cranecloud # you probably want to 'snapcraft register <name>'
+base: core20 # the base snap is the execution environment for this snap
+version: "1.0" # just for humans, typically '1.2+git' or '1.3.2'
+summary: This is a Crane Cloud Command Line Client # 79 char long summary
+description: |
+  Crane Cloud is an open source multi-cloud service layer for deployment
+  and management of Cloud Native applications. Crane Cloud provides compute,
+  network and storage services without vendor lock-in.
+
+  We have created a Command Line Interface (CLI) client which is a command
+  line tool registered users can use for interacting with the Cranecloud platform.
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: strict # use 'strict' once you have the right plugs and slots
+
+parts:
+  my-part:
+    # See 'snapcraft plugins'
+    plugin: python
+    source: .
+
+plugs:
+  crane-data:
+    interface: personal-files
+    read:
+      - $HOME/crane
+    write:
+      - $HOME/crane
+slots:
+  dbus-svc:
+    bus: session
+    interface: dbus
+    name: io.cranecloud.app
+
+apps:
+  cranecloud:
+    command: bin/cranecloud
+    slots: [dbus-svc]
+    plugs:
+      - network
+      - crane-data
