@@ -5,39 +5,40 @@ import logging
 from config import MLOPS_API_BASE_URL
 from cranecloud.utils import get_token
 
+
 class MLOpsClient:
     def __init__(self):
         pass
 
-    def create_experiment(self, user_id, app_alias, verbose=False):
+    def create_experiment(self, token, verbose=False):
         """Create a new experiment."""
-        token = get_token()
+        # modify to take token as function parameter
         endpoint = f"{MLOPS_API_BASE_URL}/experiments"
-        params = {
-            "user_id": user_id,
-            "app_alias": app_alias
+        body = {
+            "token": token
         }
 
         headers = {
-            "accept": "application/json"
+            "accept": "application/json",
+            "Content-Type": "application/json"
         }
 
-        if verbose: print(f"Creating experiment for user '{user_id}' on app '{app_alias}'...")
+        if verbose:
+            print(f"Creating experiment for user with {token} ...")
         try:
-            response = requests.post(endpoint, params=params, headers=headers)
+            response = requests.post(endpoint, json=body, headers=headers)
             response.raise_for_status()
             result = response.json()
 
             tracking_uri = result.get("tracking_uri")
             experiment_id = result.get("experiment_id")
-            
-            if verbose: print("✅ Experiment created successfully!")
+
+            if verbose:
+                print("Experiment created successfully!")
             return tracking_uri, experiment_id
-        except requests.exceptions.RequestException as e:
+        except Exception as e:
             if verbose:
                 print(f"Error: {e}")
                 if e.response is not None:
                     print(e.response.text)
             raise
-
-
