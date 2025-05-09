@@ -34,7 +34,7 @@ class MLOpsClient:
             experiment_id = result.get("experiment_id")
 
             if verbose:
-                print("✅ Experiment created successfully!")
+                print("Experiment created successfully!")
             return tracking_uri, experiment_id
         except Exception as e:
             if verbose:
