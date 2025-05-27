@@ -1,10 +1,10 @@
 import click
 import requests
-from src.cranecloud.utils.config import write_config
-from src.config import API_BASE_URL, CURRENT_CLUSTER
+from cranecloud.utils.config import write_config
+from config import API_BASE_URL, CURRENT_CLUSTER
 from tabulate import tabulate
 
-from src.cranecloud.utils import get_token
+from cranecloud.utils import get_token
 
 
 @click.group()

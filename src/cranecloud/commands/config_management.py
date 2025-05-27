@@ -1,8 +1,8 @@
 import click
 from tabulate import SEPARATING_LINE, tabulate
-from src.cranecloud.commands.projects import set_use_project
-from src.config import CURRENT_CLUSTER, CURRENT_PROJECT, CURRENT_USER
-from src.cranecloud.utils.config import read_config
+from cranecloud.commands.projects import set_use_project
+from config import CURRENT_CLUSTER, CURRENT_PROJECT, CURRENT_USER
+from cranecloud.utils.config import read_config
 
 
 @click.group()
@@ -34,6 +34,7 @@ def get_config():
 
     config_data = {
         'base_url': global_settings.get('base_url'),
+        'mlops_url': global_settings.get('mlops_base_url'),
         'current_project': current_project,
         'current_user': current_user,
         'current_cluster': current_cluster,

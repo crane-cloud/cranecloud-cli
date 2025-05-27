@@ -1,6 +1,6 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: cranecloud
-Version: 0.0.5
+Version: 0.0.6
 Summary: Cranecloud CLI client
 Author-email: cranecloud <allan@cranecloud.io>
 Project-URL: Homepage, https://github.com/crane-cloud/cranecloud-cli
@@ -26,6 +26,7 @@ Provides-Extra: dev
 Requires-Dist: twine; extra == "dev"
 Requires-Dist: pip-tools; extra == "dev"
 Requires-Dist: pytest; extra == "dev"
+Dynamic: license-file
 
 # Cranecloud CLI Client
 

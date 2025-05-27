@@ -1,10 +1,10 @@
 import click
 import requests
-from src.config import API_BASE_URL
+from config import API_BASE_URL
 import keyring
 from tabulate import tabulate
-from src.cranecloud.utils import get_token
-from src.cranecloud.utils.config import write_config
+from cranecloud.utils import get_token
+from cranecloud.utils.config import write_config
 
 
 @click.group()

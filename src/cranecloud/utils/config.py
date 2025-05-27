@@ -13,7 +13,9 @@ def get_base_dir():
 
 def create_config():
     default_base_url = os.getenv('API_BASE_URL', "https://api.cranecloud.io")
+    default_mlops_base_url = os.getenv('MLOPS_API_BASE_URL', "https://staging-mlops.cranecloud.io")
     write_config('base_url', default_base_url)
+    write_config('mlops_base_url', default_mlops_base_url)
 
 
 def read_config():
