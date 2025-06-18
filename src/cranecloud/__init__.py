@@ -25,5 +25,6 @@ cli = click.CommandCollection(
 
 __all__ = ["MLOpsClient"]
 
+
 def create_initial_config():
     create_config()

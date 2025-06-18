@@ -1,7 +1,7 @@
 import click
 from tabulate import SEPARATING_LINE, tabulate
 from cranecloud.commands.projects import set_use_project
-from config import CURRENT_CLUSTER, CURRENT_PROJECT, CURRENT_USER
+from cranecloud.config import CURRENT_CLUSTER, CURRENT_PROJECT, CURRENT_USER
 from cranecloud.utils.config import read_config
 
 

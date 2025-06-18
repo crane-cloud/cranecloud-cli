@@ -1,8 +1,8 @@
 import click
 import requests
 from tabulate import tabulate
-from config import (API_BASE_URL, CURRENT_PROJECT,
-                        CURRENT_CLUSTER, CURRENT_USER)
+from cranecloud.config import (API_BASE_URL, CURRENT_PROJECT,
+                               CURRENT_CLUSTER, CURRENT_USER)
 from cranecloud.utils.config import write_config
 
 from cranecloud.utils import get_token

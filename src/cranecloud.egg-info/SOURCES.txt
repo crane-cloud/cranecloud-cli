@@ -3,6 +3,7 @@ README.md
 pyproject.toml
 setup.py
 src/cranecloud/__init__.py
+src/cranecloud/config.py
 src/cranecloud.egg-info/PKG-INFO
 src/cranecloud.egg-info/SOURCES.txt
 src/cranecloud.egg-info/dependency_links.txt

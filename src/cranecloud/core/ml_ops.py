@@ -2,7 +2,7 @@ import click
 import requests
 import subprocess
 import logging
-from config import MLOPS_API_BASE_URL
+from cranecloud.config import MLOPS_API_BASE_URL
 from cranecloud.utils import get_token
 
 
