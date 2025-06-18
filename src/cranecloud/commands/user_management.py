@@ -1,6 +1,6 @@
 import click
 import requests
-from config import API_BASE_URL
+from cranecloud.config import API_BASE_URL
 import keyring
 from tabulate import tabulate
 from cranecloud.utils import get_token

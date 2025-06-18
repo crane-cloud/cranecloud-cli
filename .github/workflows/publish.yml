@@ -1,9 +1,10 @@
 name: Publish to PyPI
 
 on:
-  push:
-    branches:
-      - "ft-add-auto-deployments"
+  release:
+    types:
+      - released
+      - prereleased
 
 jobs:
   deploy:

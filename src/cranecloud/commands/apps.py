@@ -1,9 +1,9 @@
 import json
 import click
 import requests
-from config import API_BASE_URL
+from cranecloud.config import API_BASE_URL
 from tabulate import tabulate
-from config import CURRENT_PROJECT
+from cranecloud.config import CURRENT_PROJECT
 from cranecloud.utils import get_token
 
 

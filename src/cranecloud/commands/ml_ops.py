@@ -3,7 +3,7 @@ import requests
 import subprocess
 import json
 
-from config import MLOPS_API_BASE_URL
+from cranecloud.config import MLOPS_API_BASE_URL
 from cranecloud.utils import get_token
 from cranecloud.core.ml_ops import MLOpsClient
 

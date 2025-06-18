@@ -1,7 +1,7 @@
 import click
 import requests
 from cranecloud.utils.config import write_config
-from config import API_BASE_URL, CURRENT_CLUSTER
+from cranecloud.config import API_BASE_URL, CURRENT_CLUSTER
 from tabulate import tabulate
 
 from cranecloud.utils import get_token
