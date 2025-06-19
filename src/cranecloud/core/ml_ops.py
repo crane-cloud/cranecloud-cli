@@ -2,8 +2,8 @@ import click
 import requests
 import subprocess
 import logging
-from cranecloud.config import MLOPS_API_BASE_URL
 from cranecloud.utils import get_token
+from cranecloud.utils.config import read_config
 
 
 class MLOpsClient:
@@ -13,7 +13,19 @@ class MLOpsClient:
     def create_experiment(self, token, verbose=False):
         """Create a new experiment."""
         # modify to take token as function parameter
+        config_file = read_config()
+        try:
+            global_settings = config_file['GlobalSettings']
+        except KeyError:
+            global_settings = {}
+
+        MLOPS_API_BASE_URL = global_settings.get('mlops_base_url')
+
+        if not MLOPS_API_BASE_URL:
+            raise ValueError("Invalid experiments URL")
+
         endpoint = f"{MLOPS_API_BASE_URL}/experiments"
+       
         body = {
             "token": token
         }
