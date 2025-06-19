@@ -9,7 +9,7 @@ except KeyError:
     create_config()
     config_file = read_config()
     API_BASE_URL = config_file['GlobalSettings'].get('base_url')
-    MLOPS_API_BASE_URL = ''
+    MLOPS_API_BASE_URL = config_file['GlobalSettings'].get('mlops_base_url')
 try:
     CURRENT_PROJECT = config_file['current_project']
 except KeyError:
