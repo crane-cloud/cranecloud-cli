@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: cranecloud
-Version: 0.0.9
+Version: 1.0.0
 Summary: Cranecloud CLI client
 Author-email: cranecloud <allan@cranecloud.io>
 Project-URL: Homepage, https://github.com/crane-cloud/cranecloud-cli
