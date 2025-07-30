@@ -41,7 +41,7 @@ def login(email, password):
             keyring.set_password("cranecloud", "user_id", user_body['id'])
             write_config('current_user', {
                 'id': user_body['id'],
-                'name': user_body['name'],
+                'name': user_body['username'],
                 'email': user_body['email']})
             click.echo("Login successful!")
         else:
