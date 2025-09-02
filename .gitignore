@@ -23,3 +23,5 @@ AUTHORS.TXT
 .DS_Store
 
 mlruns/
+
+*.snap

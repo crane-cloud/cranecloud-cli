@@ -1,0 +1,55 @@
+name: cranecloud
+base: core22
+version: "1.0.0"
+summary: Cranecloud CLI client
+description: |
+  Cranecloud CLI client is a command line tool for interacting with Cranecloud.
+
+grade: stable
+confinement: strict
+
+apps:
+  cranecloud:
+    command: bin/cranecloud-wrapper
+    plugs:
+      - network
+      - home
+      - password-manager-service
+      - dot-crane
+
+plugs:
+  dot-crane:
+    interface: personal-files
+    write:
+      - $HOME/.crane
+
+parts:
+  cranecloud:
+    plugin: python
+    source: .
+    source-type: local
+    stage-packages:
+      - python3-pip
+    python-requirements:
+      - requirements-snap.txt
+    override-pull: |
+      # Use craftctl default to pull the source
+      craftctl default
+
+      # Remove problematic directories immediately after pull
+      rm -rf "$SNAPCRAFT_PART_SRC/venv" || true
+      rm -rf "$SNAPCRAFT_PART_SRC/__pycache__" || true
+      rm -rf "$SNAPCRAFT_PART_SRC"/*.egg-info || true
+      rm -rf "$SNAPCRAFT_PART_SRC/dist" || true
+      rm -rf "$SNAPCRAFT_PART_SRC/build" || true
+      find "$SNAPCRAFT_PART_SRC" -name "*.pyc" -delete || true
+      find "$SNAPCRAFT_PART_SRC" -name "__pycache__" -type d -exec rm -rf {} + || true
+    override-build: |
+      # Use craftctl default to run the default Python plugin build
+      craftctl default
+
+      # Create a simple wrapper script
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+      echo '#!/bin/bash' > $SNAPCRAFT_PART_INSTALL/bin/cranecloud-wrapper
+      echo 'exec python3 -c "from cranecloud import cli; cli()" "$@"' >> $SNAPCRAFT_PART_INSTALL/bin/cranecloud-wrapper
+      chmod +x $SNAPCRAFT_PART_INSTALL/bin/cranecloud-wrapper

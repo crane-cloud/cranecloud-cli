@@ -2,6 +2,58 @@
 
 Cranecloud CLI client is a command line tool for interacting with Cranecloud.
 
+## Install via Snap (Linux)
+
+### Install from Snap Store (Recommended)
+
+```bash
+sudo snap install cranecloud
+```
+
+### Build and Install Locally
+
+You can also build and install a Snap package of the CLI locally.
+
+1. Ensure `snapcraft` is installed. On Ubuntu:
+
+   ```bash
+   sudo snap install snapcraft --classic
+   ```
+
+2. Build the snap from the project root:
+
+   ```bash
+   snapcraft pack
+   ```
+
+   This produces a file like `cranecloud_1.0.0_amd64.snap` in the project directory.
+
+3. Install the snap locally:
+
+   ```bash
+   sudo snap install --dangerous cranecloud_*.snap
+   ```
+
+4. Connect interfaces for network, keyring, and dotfile access (first-time only):
+
+   ```bash
+   sudo snap connect cranecloud:password-manager-service
+   sudo snap connect cranecloud:dot-crane
+   ```
+
+5. Run the CLI:
+
+   ```bash
+   cranecloud.cranecloud --help
+   ```
+
+   Optionally create a shorter alias:
+
+   ```bash
+   sudo snap alias cranecloud.cranecloud cranecloud
+   cranecloud --help
+   ```
+
 ## Basic Commands
 
 ### Authentication and Account Management
