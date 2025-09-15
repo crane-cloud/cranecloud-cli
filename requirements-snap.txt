@@ -1,0 +1,11 @@
+Click
+requests
+keyring==24.3.0
+tabulate
+colorama
+Pygments
+rich
+python-dotenv
+urllib3==2.1.0
+toml==0.10.2
+configparser==6.0.0
